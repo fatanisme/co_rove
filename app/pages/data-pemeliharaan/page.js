@@ -176,61 +176,74 @@ export default function DataPemeliharaan() {
                     ))}
                 </div>
             </section>
+            <div className="container mx-auto px-4 py-8">
+                <h1 className="text-3xl font-bold mb-6">Data Pemeliharaan Mangrove</h1>
 
-            <section className="mb-8">
-                <h2 className="text-2xl font-semibold mb-4">Laporan Kegiatan Pemeliharaan</h2>
+                <div className="flex flex-wrap gap-8">
+                    {/* Left Section: Tabel */}
+                    <div className="flex-1">
+                        <section className="mb-8">
+                            <h2 className="text-2xl font-semibold mb-4">Laporan Kegiatan Pemeliharaan</h2>
 
-                {/* Error or success message */}
-                {error && <p className="text-red-600 mb-4">{error}</p>}
-                {success && <p className="text-green-600 mb-4">{success}</p>}
+                            {/* Error or success message */}
+                            {error && <p className="text-red-600 mb-4">{error}</p>}
+                            {success && <p className="text-green-600 mb-4">{success}</p>}
 
-                <form onSubmit={handleSubmit} className="space-y-4 mb-6">
-                    <Input
-                        type="text"
-                        name="title"
-                        value={newReport.title}
-                        onChange={handleInputChange}
-                        placeholder="Judul Laporan"
-                        required
-                    />
-                    <Textarea
-                        name="description"
-                        value={newReport.description}
-                        onChange={handleInputChange}
-                        placeholder="Deskripsi Kegiatan"
-                        required
-                    />
-                    <Button type="submit" disabled={loading}>
-                        {loading ? 'Loading...' : editMode ? 'Update Laporan' : 'Tambah Laporan'}
-                    </Button>
-                </form>
+                            <form onSubmit={handleSubmit} className="space-y-4 mb-6">
+                                <Input
+                                    type="text"
+                                    name="title"
+                                    value={newReport.title}
+                                    onChange={handleInputChange}
+                                    placeholder="Judul Laporan"
+                                    required
+                                />
+                                <Textarea
+                                    name="description"
+                                    value={newReport.description}
+                                    onChange={handleInputChange}
+                                    placeholder="Deskripsi Kegiatan"
+                                    required
+                                />
+                                <Button type="submit" disabled={loading}>
+                                    {loading ? 'Loading...' : editMode ? 'Update Laporan' : 'Tambah Laporan'}
+                                </Button>
+                            </form>
 
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Judul</TableHead>
-                            <TableHead>Deskripsi</TableHead>
-                            <TableHead>Aksi</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {reports.map((report) => (
-                            <TableRow key={report.id}>
-                                <TableCell>{report.title}</TableCell>
-                                <TableCell>{report.description}</TableCell>
-                                <TableCell>
-                                    <Button onClick={() => handleEdit(report)} className="bg-blue-600 text-white">
-                                        Edit
-                                    </Button>
-                                    <Button className="bg-red-600 text-white" variant="destructive" onClick={() => handleDelete(report.id)}>
-                                        Hapus
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </section>
+                            <Table>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead>Judul</TableHead>
+                                        <TableHead>Deskripsi</TableHead>
+                                        <TableHead>Aksi</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {reports.map((report) => (
+                                        <TableRow key={report.id}>
+                                            <TableCell>{report.title}</TableCell>
+                                            <TableCell>{report.description}</TableCell>
+                                            <TableCell>
+                                                <Button onClick={() => handleEdit(report)} className="bg-blue-600 text-white">
+                                                    Edit
+                                                </Button>
+                                                <Button className="bg-red-600 text-white" variant="destructive" onClick={() => handleDelete(report.id)}>
+                                                    Hapus
+                                                </Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </section>
+                    </div>
+
+                    {/* Right Section: Logo */}
+                    <div className="flex-shrink-0 w-1/4 flex justify-center items-center">
+                        <img src="/images/logo.png" alt="Website Logo" className="max-w-full h-auto" />
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

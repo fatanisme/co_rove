@@ -1,39 +1,51 @@
-"use client"
-import React, { useState, useRef, useEffect } from 'react'
-import Link from 'next/link'
-import Button from './ui/Button'
+'use client';
+
+import React, { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
+import Button from './ui/Button';
+import Cookies from 'js-cookie';  // Make sure js-cookie is installed
 
 const Header = () => {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-    const dropdownRef = useRef(null)  // Referensi untuk dropdown
-    const buttonRef = useRef(null)  // Referensi untuk tombol dropdown (opsional)
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dropdownRef = useRef(null);
+    const buttonRef = useRef(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    // Data untuk menu dropdown dengan label dalam bahasa Inggris
+    // Check the login status when the component mounts
+    useEffect(() => {
+        const token = Cookies.get('authToken');
+        setIsLoggedIn(!!token);  // Set isLoggedIn based on whether the token exists
+    }, []);
+
+    const handleLogout = () => {
+        // Remove token from cookies or localStorage
+        Cookies.remove('authToken');  // Remove token from cookies
+        setIsLoggedIn(false);  // Update state to reflect logged out status
+    };
+
+    // Data for dropdown menu items
     const pageItems = [
         { label: 'Maintenance Data', href: '/pages/data-pemeliharaan' },
         { label: 'News', href: '/pages/berita' },
-    ]
+    ];
 
-    // Mengatur efek untuk mendeteksi klik di luar dropdown
+    // Handle click outside to close dropdown
     useEffect(() => {
         const handleClickOutside = (event) => {
-            // Menutup dropdown jika klik di luar dropdown atau tombol
             if (
                 dropdownRef.current && !dropdownRef.current.contains(event.target) &&
                 buttonRef.current && !buttonRef.current.contains(event.target)
             ) {
-                setIsDropdownOpen(false)
+                setIsDropdownOpen(false);
             }
-        }
+        };
 
-        // Menambahkan event listener untuk klik di luar
-        document.addEventListener('mousedown', handleClickOutside)
+        document.addEventListener('mousedown', handleClickOutside);
 
-        // Membersihkan event listener saat komponen unmount
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside)
-        }
-    }, [])  // Efek hanya dijalankan sekali saat komponen dimounting
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     return (
         <header className="bg-white shadow-md">
@@ -80,12 +92,24 @@ const Header = () => {
                 </nav>
 
                 <div className="flex items-center space-x-4">
-                    <Button href="/login" variant="outline">Login</Button>
-                    <Button href="/register">Register</Button>
+                    {/* Show Logout button if logged in */}
+                    {isLoggedIn ? (
+                        <Button onClick={handleLogout} variant="outline">
+                            Logout
+                        </Button>
+                    ) : (
+                        <>
+                            {/* Show Login and Register buttons if not logged in */}
+                            <Button href="/login" variant="outline">
+                                Login
+                            </Button>
+                            <Button href="/register">Register</Button>
+                        </>
+                    )}
                 </div>
             </div>
         </header>
-    )
-}
+    );
+};
 
-export default Header
+export default Header;

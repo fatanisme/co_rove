@@ -1,10 +1,10 @@
-// app/login/page.js
 'use client'
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Button from '@/components/ui/Button'
+import Cookies from 'js-cookie' // Make sure to install js-cookie for cookie handling
 
 export default function Login() {
     const [email, setEmail] = useState('')
@@ -14,7 +14,7 @@ export default function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        setError('')
+        setError('') // Reset error state before submitting
 
         try {
             const response = await fetch('/api/auth/login', {
@@ -29,12 +29,18 @@ export default function Login() {
                 throw new Error(data.error || 'Login failed')
             }
 
-            // Store the token in localStorage or a secure cookie
-            localStorage.setItem('token', data.token)
+            // Store the token in a secure cookie
+            Cookies.set('authToken', data.token, { expires: 1, secure: process.env.NODE_ENV === 'production' })
 
-            // Redirect to dashboard or home page
+            // Clear form and error state after successful login
+            setEmail('')
+            setPassword('')
+            setError('')
+
+            // Redirect to home page after successful login
             router.push('/')
         } catch (error) {
+            // Handle errors such as incorrect credentials
             setError(error.message)
         }
     }
@@ -44,7 +50,11 @@ export default function Login() {
             <div className="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden">
                 <div className="p-6">
                     <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Login to CO-ROVE</h2>
+
+                    {/* Display error if any */}
                     {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+
+                    {/* Login Form */}
                     <form onSubmit={handleSubmit}>
                         <div className="mb-4">
                             <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">
@@ -60,6 +70,7 @@ export default function Login() {
                                 required
                             />
                         </div>
+
                         <div className="mb-6">
                             <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">
                                 Password
@@ -74,8 +85,11 @@ export default function Login() {
                                 required
                             />
                         </div>
+
                         <div className="flex items-center justify-between">
                             <Button type="submit">Sign In</Button>
+
+                            {/* Link to registration page */}
                             <Link href="/register" className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
                                 Create an account
                             </Link>
