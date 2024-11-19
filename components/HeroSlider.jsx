@@ -57,10 +57,18 @@ const HeroSlider = () => {
                     />
                     <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                         <div className="text-center text-white max-w-4xl px-4">
+                            <h2 className="text-3xl md:text-5xl font-bold mb-4">Welcome to Co-Rove</h2>
                             <h2 className="text-sm md:text-base font-medium mb-2">{slide.subtitle}</h2>
-                            <h1 className="text-3xl md:text-5xl font-bold mb-4">{slide.title}</h1>
+                            <h1
+                                className={`text-3xl md:text-5xl font-bold mb-4 text-white transition-all duration-1000 ${index === currentSlide ? 'typing-animation' : 'opacity-0'
+                                    }`}
+                                style={{
+                                    animationDelay: `${index === currentSlide ? '0s' : '0s'}`, // delay for new slide
+                                }}
+                            >
+                                {slide.title}
+                            </h1>
                             <p className="text-lg md:text-xl mb-8">{slide.description}</p>
-                            <Button href="/about" variant="primary">Learn More</Button>
                         </div>
                     </div>
                 </div>

@@ -8,12 +8,10 @@ const Header = () => {
     const dropdownRef = useRef(null)  // Referensi untuk dropdown
     const buttonRef = useRef(null)  // Referensi untuk tombol dropdown (opsional)
 
-    // Data untuk menu dropdown
+    // Data untuk menu dropdown dengan label dalam bahasa Inggris
     const pageItems = [
-        { label: 'Data Spasial Temporal', href: '/pages/data-spasial-temporal' },
-        { label: 'Data Jenis Mangrove', href: '/pages/data-jenis-mangrove' },
-        { label: 'Data Pemeliharaan', href: '/pages/data-pemeliharaan' },
-        { label: 'Berita', href: '/pages/berita' },
+        { label: 'Maintenance Data', href: '/pages/data-pemeliharaan' },
+        { label: 'News', href: '/pages/berita' },
     ]
 
     // Mengatur efek untuk mendeteksi klik di luar dropdown
@@ -46,7 +44,7 @@ const Header = () => {
 
                 <nav className="hidden md:flex space-x-4">
                     <Link href="/" className="text-gray-600 hover:text-red-600">Home</Link>
-                    <Link href="/about" className="text-gray-600 hover:text-red-600">About</Link>
+                    <Link href="/map" className="text-gray-600 hover:text-red-600">Map</Link>
 
                     {/* Dropdown */}
                     <div className="relative" ref={dropdownRef}>
@@ -55,7 +53,7 @@ const Header = () => {
                             onClick={() => setIsDropdownOpen((prev) => !prev)}
                             className="text-gray-600 hover:text-red-600 focus:outline-none flex items-center"
                         >
-                            Pages
+                            Monitoring
                             <img
                                 src="/images/dropdown.svg"
                                 alt="Dropdown Icon"
